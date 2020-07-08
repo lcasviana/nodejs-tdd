@@ -1,34 +1,34 @@
 const expect = require('chai').expect;
 
-const { get, getById } = require('../../routes/productsController');
+const { get, getById } = require('../../controllers/products');
 
 let req = {
-    body: {},
-    params: {},
+  body: {},
+  params: {},
 };
 
 const res = {
-    jsonCalledWith: {},
-    json(arg) {
-        this.jsonCalledWith = arg
-    }
+  jsonCalledWith: {},
+  json(arg) {
+    this.jsonCalledWith = arg;
+  }
 }
 
-describe('Products Route', function() {
-    describe('get() function', function() {
-        it('should return object with title ', function() {
-            get(req, res);
-            expect(res.jsonCalledWith).to.be.eql({ title: 'Products page'});
-        });
+describe('Products Route', function () {
+  describe('get() function', function () {
+    it('should return object with title ', function () {
+      get(req, res);
+      expect(res.jsonCalledWith).to.be.eql({ title: 'Products page' });
+    });
 
-        it('should receive return by id ', function() {
-            const getReq = req;
-            getReq.params = {
-                id: 1
-            };
+    it('should receive return by id ', function () {
+      const getReq = req;
+      getReq.params = {
+        id: 1
+      };
 
-            getById(getReq, res);
-            expect(res.jsonCalledWith).to.be.have.key('success')
-        });
-    })
+      getById(getReq, res);
+      expect(res.jsonCalledWith).to.be.have.key('success');
+    });
+  });
 });
