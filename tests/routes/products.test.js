@@ -1,34 +1,42 @@
 const expect = require('chai').expect;
 
-const { get, getById } = require('../../controllers/products');
+const { getAll, getById, insert } = require('../../controllers/products');
 
-let req = {
+const req = {
   body: {},
   params: {},
 };
 
 const res = {
   jsonCalledWith: {},
-  json(arg) {
-    this.jsonCalledWith = arg;
-  }
+  json(arg) { this.jsonCalledWith = arg; }
 }
 
-describe('Products Route', function () {
-  describe('get() function', function () {
-    it('should return object with title ', function () {
-      get(req, res);
+describe('products', () => {
+
+  describe('getAll', () => {
+    it('success', () => {
+      getAll(req, res);
       expect(res.jsonCalledWith).to.be.eql({ title: 'Products page' });
     });
+    it('internal error', () => {
+      getAll(req, res);
+    });
+  });
 
-    it('should receive return by id ', function () {
-      const getReq = req;
-      getReq.params = {
-        id: 1
-      };
-
-      getById(getReq, res);
+  describe('getById', () => {
+    it('success', () => {
+      const r = { ...req };
+      r.params = { id: '5f06669b47405a1a7854439b' };
+      getById(r, res);
+      expect(res.jsonCalledWith).to.be.have.key('success');
+    });
+    it('not found', () => {
+      const r = { ...req };
+      r.params = { id: 'not found' };
+      getById(r, res);
       expect(res.jsonCalledWith).to.be.have.key('success');
     });
   });
+
 });
