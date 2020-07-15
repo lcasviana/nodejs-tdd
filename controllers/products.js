@@ -88,10 +88,6 @@ module.exports = {
         res.json({ error: 'Name only whitespaces' });
         return;
       }
-      if (req.body.name.trim().length < 1) {
-        res.json({ error: 'Name length less than 1' });
-        return;
-      }
 
       if (!req.body.description) {
         res.json({ error: 'Description falsy' });
