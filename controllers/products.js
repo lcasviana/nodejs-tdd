@@ -35,7 +35,10 @@ module.exports = {
 
   getAll(req, res, next) {
     try {
-      if (!products.length) res.json({ error: 'No content' });
+      if (!products.length) {
+        res.json({ error: 'No content' });
+        return;
+      }
 
       res.json({ products });
 
@@ -47,10 +50,16 @@ module.exports = {
 
   getById(req, res, next) {
     try {
-      if (!req.params.id) res.json({ error: 'Id invalid' });
+      if (!req.params.id) {
+        res.json({ error: 'Id invalid' });
+        return;
+      }
 
       const product = products.find(product => product.id == req.params.id);
-      if (!product) res.json({ error: 'Not found' });
+      if (!product) {
+        res.json({ error: 'Not found' });
+        return;
+      }
 
       res.json({ product });
 
@@ -62,24 +71,63 @@ module.exports = {
 
   insert(req, res, next) {
     try {
-      if (!req.params.id) res.json({ error: 'Id invalid' });
+      if (!req.params.id) {
+        res.json({ error: 'Id invalid' });
+        return;
+      }
 
-      if (!req.body.name) res.json({ error: 'Name falsy' });
-      if (typeof req.body.name !== 'string') res.json({ error: 'Name not string' });
-      if (!req.body.name.trim()) res.json({ error: 'Name only whitespaces' });
-      if (req.body.name.trim().length < 1) res.json({ error: 'Name length less than 1' });
+      if (!req.body.name) {
+        res.json({ error: 'Name falsy' });
+        return;
+      }
+      if (typeof req.body.name !== 'string') {
+        res.json({ error: 'Name not string' });
+        return;
+      }
+      if (!req.body.name.trim()) {
+        res.json({ error: 'Name only whitespaces' });
+        return;
+      }
+      if (req.body.name.trim().length < 1) {
+        res.json({ error: 'Name length less than 1' });
+        return;
+      }
 
-      if (!req.body.description) res.json({ error: 'Description falsy' });
-      if (typeof req.body.description !== 'string') res.json({ error: 'Description not string' });
-      if (!req.body.description.trim()) res.json({ error: 'Description only whitespaces' });
-      if (req.body.description.trim().length < 10) res.json({ error: 'Description length less than 10' });
+      if (!req.body.description) {
+        res.json({ error: 'Description falsy' });
+        return;
+      }
+      if (typeof req.body.description !== 'string') {
+        res.json({ error: 'Description not string' });
+        return;
+      }
+      if (!req.body.description.trim()) {
+        res.json({ error: 'Description only whitespaces' });
+        return;
+      }
+      if (req.body.description.trim().length < 10) {
+        res.json({ error: 'Description length less than 10' });
+        return;
+      }
 
-      if (!req.body.price) res.json({ error: 'Price falsy' });
-      if (typeof req.body.price !== 'number') res.json({ error: 'Price not number' });
-      if (req.body.price <= 0) res.json({ error: 'Price less equal 0' });
+      if (!req.body.price) {
+        res.json({ error: 'Price falsy' });
+        return;
+      }
+      if (typeof req.body.price !== 'number') {
+        res.json({ error: 'Price not number' });
+        return;
+      }
+      if (req.body.price <= 0) {
+        res.json({ error: 'Price less equal 0' });
+        return;
+      }
 
       let product = products.find(product => product.id == req.params.id);
-      if (product) res.json({ error: 'Conflict' });
+      if (product) {
+        res.json({ error: 'Conflict' });
+        return;
+      }
 
       product = {
         id: req.params.id.trim(),
